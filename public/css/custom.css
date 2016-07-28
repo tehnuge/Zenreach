@@ -1,0 +1,8 @@
+body { padding-top: 70px; }
+
+.tile{
+	padding:15px;
+}
+.tile.favorite{
+	background-color: #5C7FFFFF;
+}
