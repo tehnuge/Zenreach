@@ -6,18 +6,27 @@ var Tile = React.createClass({
 		return {
 				image_url: this.props.image_url,
 				times_viewed: this.props.times_viewed,
-				isFavorite: false
 			};
+	},
+	handleFavorite: function(){
+		this.props.onFavorite();
 	},
 	render: function(){
 		var tileClass = classNames({
-			'tile col-md-4': true,
-			'favorite': this.state.isFavorite
+			favorite: this.props.favorited,
+			'tile': true,
+			 'col-md-4': true,
 		})
 		return(
-			<div>
-				<img src={this.state.image_url} className='tile col-md-4'
+			<div className= {tileClass}>
+				<img className="center-block"
+					src={this.state.image_url}  
+					onClick = {this.handleFavorite}
+					onMouseEnter = {this.handleMouse}
 					 />
+
+				<br />
+				<b className="center-block text-center">{this.props.name}</b>
 			</div>)
 	}
 })

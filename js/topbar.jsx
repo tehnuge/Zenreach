@@ -1,15 +1,19 @@
 var React = require('react');
+var Home = require('./home');
 
 var TopBar = React.createClass({
 	render: function(){
 		return(
-			<nav className="navbar navbar-default navbar-fixed-top">
-				<div className="container">
-					<div className="navbar-header">
-					TopBar
+			<div>
+				<nav className="navbar navbar-default navbar-fixed-top">
+					<div className="container">
+						<div className="navbar-header">
+						TopBar
+						</div>
 					</div>
-				</div>
-			</nav>)
+				</nav>
+				<Home />
+			</div>)
 	}
 })
 

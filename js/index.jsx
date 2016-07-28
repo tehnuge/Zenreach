@@ -6,5 +6,4 @@ var TopBar = require('./topbar')
 
 ReactDOM.render(<div>
 	<TopBar />
-	<Home />
 	</div>, document.getElementById('root'))	

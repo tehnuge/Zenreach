@@ -1,5 +1,6 @@
 var React = require('react');
 var Tile = require('./tile');
+var _ = require('underscore');
 
 var url = 'https://api.500px.com/v1/photos?feature=popular&sort=created_at&image_size=3&rpp=100&include_store=store_download&include_states=voted&consumer_key=SXgWv6W10tTw058W95DZ4RfQKMTTAc7mwnskbzPY';
 
@@ -9,23 +10,32 @@ var Home = React.createClass({
 	    return{
 	        didFetchData: false,
 	        loadingFlag: false,
-	        load: 0,
-	        pics: [],
-	        sliceEnd: 0
+	        favorited: {},
+	        favorites: 0,
+	        sliceEnd: 0,
+	        pics: []
 	    }
 	},
 	getPics: function(){
-    //method to fetch comments will concat result to state.comment
-		var nextLoad = this.state.load+1; //increase the load count
+    //Method to chunk off more of the pics array
 	 	var newSliceEnd = this.state.sliceEnd + 10;
       if (this.isMounted()) {
         this.setState({
           loadingFlag: false,
-          load: nextLoad,
           sliceEnd: newSliceEnd
         });
       }
 	}, 
+	favorite: function (pic) {
+		var id = pic.id
+		if(this.state.favorited[id] && this.state.favorited[id] === true){
+			this.setState({favorited: _.extend(this.state.favorited, {[id]: false}),
+				favorites: this.state.favorites - 1});
+		}else{
+			this.setState({favorited: _.extend(this.state.favorited, {[id]: true}),
+				favorites: this.state.favorites + 1});
+		}
+	},
 	handleScroll: function(e){
 	  //this function will be triggered if user scrolls
 	  var self = this;
@@ -56,17 +66,23 @@ var Home = React.createClass({
 	},
 	render: function(){
 		if(this.state.didFetchData === false){
-			return (<div>loading...</div>);
+			return (<div className='row col-md-12 text-center'>loading...</div>);
 		}
+
 		var end = this.state.sliceEnd;
 		var PicsNode = this.state.pics.map(function(pic){
 			return(
-				<Tile key={pic.id}
-						image_url = {pic.image_url}
-						times_viewed = {pic.times_viewed}
-						/>
+				<div key={pic.id}>
+					<Tile	id = {pic.id}
+							image_url = {pic.image_url}
+							name = {pic.name}
+							times_viewed = {pic.times_viewed}
+							onFavorite = {this.favorite.bind(this, pic)}
+							favorited = {this.state.favorited[pic.id]  === true}
+							/>
+				</div>
 				)			
-		}).slice(0, end);
+		}, this).slice(0, end);
 		return(
 			<div className="container row">
 				{PicsNode}
