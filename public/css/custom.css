@@ -6,7 +6,7 @@ body {
 	padding:15px;
 }
 .tile.favorite{
-	background-color: blue;
+	background-color: teal;
 }
 
 .tile.mouse{
@@ -14,4 +14,17 @@ body {
 }
 .tile.noMouse{
 	display:none;
+}
+
+h4 span.mouse{
+	position: absolute;
+	top:200px;
+	left:60px;
+	display: block;
+	color:white;
+	background: rgb(0, 0, 0); /* fallback color */
+	background: rgba(0, 0, 0, 0.7);
+}
+h4 span{ 
+	display: none;
 }

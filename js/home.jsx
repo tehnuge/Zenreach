@@ -11,7 +11,7 @@ var Home = React.createClass({
 	        didFetchData: false,
 	        loadingFlag: false,
 	        favorited: {},
-	        favorites: 0,
+	        favorites: this.props.favorites,
 	        sliceEnd: 0,
 	        pics: []
 	    }
@@ -29,11 +29,11 @@ var Home = React.createClass({
 	favorite: function (pic) {
 		var id = pic.id
 		if(this.state.favorited[id] && this.state.favorited[id] === true){
-			this.setState({favorited: _.extend(this.state.favorited, {[id]: false}),
-				favorites: this.state.favorites - 1});
+			this.setState({favorited: _.extend(this.state.favorited, {[id]: false})});
+			this.props.onFavoritesMinus();
 		}else{
-			this.setState({favorited: _.extend(this.state.favorited, {[id]: true}),
-				favorites: this.state.favorites + 1});
+			this.setState({favorited: _.extend(this.state.favorited, {[id]: true})});
+			this.props.onFavoritesPlus();
 		}
 	},
 	handleScroll: function(e){
@@ -73,13 +73,14 @@ var Home = React.createClass({
 		var PicsNode = this.state.pics.map(function(pic){
 			return(
 				<div key={pic.id}>
-					<Tile	id = {pic.id}
-							image_url = {pic.image_url}
-							name = {pic.name}
-							times_viewed = {pic.times_viewed}
-							onFavorite = {this.favorite.bind(this, pic)}
-							favorited = {this.state.favorited[pic.id]  === true}
-							/>
+					<Tile	
+						id = {pic.id}
+						name = {pic.name}
+						image_url = {pic.image_url}
+						times_viewed = {pic.times_viewed}
+						onFavorite = {this.favorite.bind(this, pic)}
+						favorited = {this.state.favorited[pic.id]  === true}
+					/>
 				</div>
 				)			
 		}, this).slice(0, end);
