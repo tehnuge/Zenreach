@@ -19,6 +19,7 @@ var TopBar = React.createClass({
 				<nav className="navbar navbar-default navbar-fixed-top">
 					<div className="container">
 						<div className="navbar-header">
+						<h1>The Popular 500px Photos</h1>
 						<b>
 							Favorites: {this.state.favorites}
 						</b>

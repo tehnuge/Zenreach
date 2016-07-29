@@ -1,8 +1,8 @@
 var React = require('react');
 var Tile = require('./tile');
 var _ = require('underscore');
-
-var url = 'https://api.500px.com/v1/photos?feature=popular&sort=created_at&image_size=3&rpp=100&include_store=store_download&include_states=voted&consumer_key=SXgWv6W10tTw058W95DZ4RfQKMTTAc7mwnskbzPY';
+var image_size = 'image_size[]=3&image_size[]=600'
+var url = 'https://api.500px.com/v1/photos?feature=popular&sort=created_at&'+image_size+'&rpp=100&include_store=store_download&include_states=voted&consumer_key=SXgWv6W10tTw058W95DZ4RfQKMTTAc7mwnskbzPY';
 
 var Home = React.createClass({
 	getInitialState: function(){
@@ -68,15 +68,17 @@ var Home = React.createClass({
 		if(this.state.didFetchData === false){
 			return (<div className='row col-md-12 text-center'>loading...</div>);
 		}
-
+		//alternate loading image sizes
+		var count = count + 1 || 0;
 		var end = this.state.sliceEnd;
 		var PicsNode = this.state.pics.map(function(pic){
+			var a = count % 2;
 			return(
 				<div key={pic.id}>
 					<Tile	
 						id = {pic.id}
 						name = {pic.name}
-						image_url = {pic.image_url}
+						image_url = {pic.image_url[a]}
 						times_viewed = {pic.times_viewed}
 						onFavorite = {this.favorite.bind(this, pic)}
 						favorited = {this.state.favorited[pic.id]  === true}
@@ -84,10 +86,9 @@ var Home = React.createClass({
 				</div>
 				)			
 		}, this).slice(0, end);
-		return(
-			<div className="container row">
-				{PicsNode}
-			</div>
+		return(<div className="container">					
+						{PicsNode}
+				</div>
 		)
 	}
 })

@@ -26,6 +26,7 @@ var Tile = React.createClass({
 		});
 		return(
 			<div className= {tileClass}>
+
 				<img className="center-block"
 					src={this.state.image_url}  
 					onClick = {this.handleFavorite}
